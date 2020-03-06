@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+# Simple script to set a random wallpaper
+# Licence: MIT Author: danjones.dev
+
+from os import getenv, listdir, system
+from os.path import isfile, join
+import random
+
+path = join(getenv("HOME"),"Pictures/Wallpapers/")
+files = list(filter(lambda x: isfile(join(path, x)), listdir(path)))
+background = join(path, random.choice(files))
+system("feh --bg-fill '" + background + "'")

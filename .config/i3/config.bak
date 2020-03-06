@@ -1,0 +1,181 @@
+##############################################################################
+# Variables & setting config veriables
+##############################################################################
+set $mod Mod4
+
+set $terminal termite
+set $webBrowser firefox
+set $Locker ~/.config/i3/locker.sh && sleep 1
+
+font xft:Noto Sans Mono 8
+
+floating_modifier $mod
+floating_minimum_size -1 x -1
+floating_maximum_size 1080 x 720
+
+#i3-gaps
+gaps inner 10
+gaps outer 5
+#smart_gaps on
+
+
+##############################################################################
+#Autostart programs
+##############################################################################
+exec_always --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/mountain_village.jpg
+#exec_always --no-startup-id xsetroot -solid "#44BBE3"
+#exec_always --no-startup-id wal -R -t -n #Load colour scheme
+#exec_always --no-startup-id compton
+exec_always --no-startup-id unagi
+exec_always --no-startup-id spotify
+
+#############################################################################
+#Keybinding
+#############################################################################
+#bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec --no-startup-id $terminal
+
+bindsym $mod+Shift+q kill
+bindsym $mod+shift+d exec --no-startup-id dmenu_run -i -f -fn "Noto Sans Mono 8" -nb "#473838" -nf "#44c7f2" -sb "#b32571" -sf "#fff" -dim 0.8
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu -f -i -fn "Noto Sans Mono 8" -nb "#473838" -nf "#44c7f2" -sb "#b32571" -sf "#fff" -dim 0.8'
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Pressing left will shrink the window’s width.
+# Pressing right will grow the window’s width.
+# Pressing up will shrink the window’s height.
+# Pressing down will grow the window’s height.
+bindsym $mod+y resize shrink width 10 px or 10 ppt
+bindsym $mod+u resize grow height 10 px or 10 ppt
+bindsym $mod+i resize shrink height 10 px or 10 ppt
+bindsym $mod+o resize grow width 10 px or 10 ppt
+
+#Windows splits
+bindsym $mod+b split h
+bindsym $mod+v split v
+
+bindsym $mod+Shift+f fullscreen toggle
+
+bindsym $mod+f exec --no-startup-id termite -e ranger
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+bindsym $mod+c move container position center
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+#Focus urgent workspace
+bindsym $mod+x [urgent=latest] focus
+
+#Fix undrawn block on top - i3 gaps bug
+for_window [class="^.*"] border pixel 5
+
+# assign programs to workspaces
+#assign [class="Firefox"] workspace 1
+assign [class="spotify"] workspace 9
+
+#Pulse audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
+
+#Brigtness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+#Media keys
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+#bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym $mod+XF86AudioRaiseVolume exec --no-startup-id playerctl next
+#bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym $mod+XF86AudioLowerVolume exec --no-startup-id playerctl previous
+
+#Logout stuff
+#set $Locker i3lock && sleep 1
+set $Locker ~/.config/i3/locker.sh && sleep 1
+mode "Exit (L)ock, (Shift + L)ogout, (R)eboot, (S)leep, (H)ibernate, (P)oweroff"{
+	bindsym $mod+r exec --no-startup-id systemctl reboot
+	bindsym $mod+l exec --no-startup-id $Locker, mode "default"
+        bindsym $mod+Shift+l exit
+        bindsym $mod+s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+        bindsym $mod+h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+	bindsym $mod+p exec --no-startup-id systemctl poweroff
+	
+	bindsym Return mode "default"
+ 	bindsym Escape mode "default"
+}
+bindsym $mod+Shift+e mode "Exit (L)ock, (Shift + L)ogout, (R)eboot, (S)leep, (H)ibernate, (P)oweroff"
+
+#####################################################################
+#Status bar
+#####################################################################
+bar {
+	status_command py3status -c ~/.config/i3/i3status.conf
+       #status_command i3blocks -c ~/.config/i3/i3blocks.conf
+	position top
+
+	colors {
+                #Colours in format of <border> <background> <text> <indicator> <child_border>
+		background #473838
+		statusline #44c7f2
+		separator #757575
+		focused_workspace	#b32571 #b32571 #44c7f2
+		inactive_workspace      #473838 #473838 #44c7f2	
+		urgent_workspace	#f26f44 #f26f44 #44c7f2
+		
+	}
+}
