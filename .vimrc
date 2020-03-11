@@ -63,6 +63,7 @@ autocmd FileType make           setlocal noexpandtab
 
 "Java auto complete
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
+autocmd FileType java Rooter
 nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
 imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
 
