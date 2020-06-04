@@ -51,6 +51,11 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
+bindsym $mod+greater focus output right
+bindsym $mod+less focus output left
+bindsym $mod+Shift+greater move workspace to output right
+bindsym $mod+Shift+less move workspace to output left
+
 # Pressing left will shrink the window’s width.
 # Pressing right will grow the window’s width.
 # Pressing up will shrink the window’s height.
@@ -151,15 +156,15 @@ bindsym $mod+XF86AudioLowerVolume exec --no-startup-id playerctl previous
 #set $Locker i3lock && sleep 1
 set $Locker ~/.config/i3/locker.sh && sleep 1
 mode "Exit (L)ock, (Shift + L)ogout, (R)eboot, (S)leep, (H)ibernate, (P)oweroff"{
-	bindsym $mod+r exec --no-startup-id systemctl reboot
-	bindsym $mod+l exec --no-startup-id $Locker, mode "default"
+        bindsym $mod+r exec --no-startup-id systemctl reboot
+        bindsym $mod+l exec --no-startup-id $Locker, mode "default"
         bindsym $mod+Shift+l exit
         bindsym $mod+s exec --no-startup-id $Locker && systemctl suspend, mode "default"
         bindsym $mod+h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
-	bindsym $mod+p exec --no-startup-id systemctl poweroff
-	
-	bindsym Return mode "default"
- 	bindsym Escape mode "default"
+        bindsym $mod+p exec --no-startup-id systemctl poweroff
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
 }
 bindsym $mod+Shift+e mode "Exit (L)ock, (Shift + L)ogout, (R)eboot, (S)leep, (H)ibernate, (P)oweroff"
 
@@ -182,22 +187,22 @@ client.background       #ffffff
 bar {
         status_command py3status -c ~/.config/i3/i3status.conf
        #status_command i3blocks -c ~/.config/i3/i3blocks.conf
-	position top
+        position top
 
-	colors {
+        colors {
                 #Colours in format of <border> <background> <text> <indicator> <child_border>
-		background #4d4d4d
-		statusline #ffffff
-		separator #ffffff
-		focused_workspace	#d3a4f9 #d3a4f9 #ffffff
-		inactive_workspace      #4d4d4d #4d4d4d #d3a4f9	
-		urgent_workspace	#fda333 #fda333 #ffffff
-		
+                background #4d4d4d
+                statusline #ffffff
+                separator #ffffff
+                focused_workspace       #d3a4f9 #d3a4f9 #ffffff
+                inactive_workspace      #4d4d4d #4d4d4d #d3a4f9
+                urgent_workspace        #fda333 #fda333 #ffffff
+
                 #background #473838
-		#statusline #44c7f2
-		#separator #757575
-		#focused_workspace	#b32571 #b32571 #44c7f2
-		#inactive_workspace      #473838 #473838 #44c7f2	
-		#urgent_workspace	#f26f44 #f26f44 #44c7f2
-	}
+                #statusline #44c7f2
+                #separator #757575
+                #focused_workspace      #b32571 #b32571 #44c7f2
+                #inactive_workspace      #473838 #473838 #44c7f2
+                #urgent_workspace       #f26f44 #f26f44 #44c7f2
+        }
 }

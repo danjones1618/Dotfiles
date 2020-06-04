@@ -22,6 +22,9 @@ Plugin 'PeterRincker/vim-argumentative'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-speeddating'
 
+Plugin 'yuezk/vim-js'
+Plugin 'MaxMEllon/vim-jsx-pretty'
+
 call vundle#end()
 
 filetype plugin indent on
