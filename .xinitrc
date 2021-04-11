@@ -31,6 +31,6 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 
 PATH='/home/dan/.bin':'/home/dan/.gem/ruby/2.7.0/bin':$PATH
-eval $(ssh-agent -t 90m)
+eval $(ssh-agent -t 4h)
 
 exec i3

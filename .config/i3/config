@@ -24,10 +24,11 @@ gaps outer 5
 exec_always --no-startup-id wallpaper
 #exec_always --no-startup-id xsetroot -solid "#44BBE3"
 #exec_always --no-startup-id wal -R -t -n #Load colour scheme
-exec_always --no-startup-id compton -b --config ~/.config/picom/picom.conf
+exec_always --no-startup-id picom -b --config ~/.config/picom/picom.conf
 #exec_always --no-startup-id spotify
 exec_always --no-startup-id cadence
 exec_always --no-startup-id mpd
+exec_always --no-startup-id exec teams
 
 #############################################################################
 #Keybinding
@@ -130,16 +131,24 @@ bindsym $mod+x [urgent=latest] focus
 
 #Fix undrawn block on top - i3 gaps bug
 for_window [class="^.*"] border pixel 2
-border_radius 4
+border_radius 0
 
 # assign programs to workspaces
 #assign [class="Firefox"] workspace 1
-assign [class="spotify"] workspace 9
+for_window [title="Microsoft Teams Notification"] floating enable
+for_window [class="Microsoft Teams - Preview"] move workspace 10
+for_window [class="Dialog"] floating enable
+for_window [title="^Android Emulator.*$"] floating enable
 
 #Pulse audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume jack_out +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume jack_out -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 2 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_14.2.analog-stereo +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_14.2.analog-stereo -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute alsa_output.pci-0000_00_14.2.analog-stereo toggle # mute sound
+
+bindsym Print exec --no-startup-id flameshot gui
+
+bindsym XF86Calculator exec --no-startup-id kitty -e calc
+bindsym XF86Mail exec --no-startup-id kitty -e neomutt
 
 #Brigtness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
@@ -147,16 +156,14 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightne
 
 #Media keys
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
-#bindsym XF86AudioNext exec --no-startup-id playerctl next
-bindsym $mod+XF86AudioRaiseVolume exec --no-startup-id playerctl next
-#bindsym XF86AudioPrev exec --no-startup-id playerctl previous
-bindsym $mod+XF86AudioLowerVolume exec --no-startup-id playerctl previous
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
 #Logout stuff
 #set $Locker i3lock && sleep 1
 set $Locker ~/.config/i3/locker.sh && sleep 1
 mode "Exit (L)ock, (Shift + L)ogout, (R)eboot, (S)leep, (H)ibernate, (P)oweroff"{
-        bindsym $mod+r exec --no-startup-id systemctl reboot
+    bindsym $mod+r exec --no-startup-id systemctl reboot
         bindsym $mod+l exec --no-startup-id $Locker, mode "default"
         bindsym $mod+Shift+l exit
         bindsym $mod+s exec --no-startup-id $Locker && systemctl suspend, mode "default"
@@ -172,11 +179,11 @@ bindsym $mod+Shift+e mode "Exit (L)ock, (Shift + L)ogout, (R)eboot, (S)leep, (H)
 # Colours
 #####################################################################
 # class                 border  backgr. text    indicator child_border
-client.focused          #6ce0f1 #6ce001 #ffffff #fb4485   #6ce0f1
-client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
-client.unfocused        #4d4d4d #4d4d4d #888888 #ffffff   #4d4d4d
-client.urgent           #fda333 #fda333 #ffffff #fb4485   #fda333
-client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+client.focused          #6ce0f1 #6ce001 #ffffff #b48ead   #6ce0f1
+client.focused_inactive #333333 #5f676a #ffffff #b48ead   #5f676a
+client.unfocused        #4d4d4d #4d4d4d #888888 #b48ead   #4d4d4d
+client.urgent           #fda333 #fda333 #ffffff #b48ead   #fda333
+client.placeholder      #000000 #0c0c0c #ffffff #b48ead   #0c0c0c
 
 client.background       #ffffff
 
@@ -185,24 +192,25 @@ client.background       #ffffff
 #####################################################################
 #exec_always --no-startup-id ~/.config/lemonbar/bar.sh
 bar {
-        status_command py3status -c ~/.config/i3/i3status.conf
-       #status_command i3blocks -c ~/.config/i3/i3blocks.conf
-        position top
+    status_command py3status -c ~/.config/i3/i3status.conf
+#status_command i3blocks -c ~/.config/i3/i3blocks.conf
+    position top
 
-        colors {
-                #Colours in format of <border> <background> <text> <indicator> <child_border>
-                background #4d4d4d
-                statusline #ffffff
-                separator #ffffff
-                focused_workspace       #d3a4f9 #d3a4f9 #ffffff
-                inactive_workspace      #4d4d4d #4d4d4d #d3a4f9
-                urgent_workspace        #fda333 #fda333 #ffffff
+    colors {
+    #Colours in format of <border> <background> <text> <indicator> <child_border>
+      background #2e3440
+      statusline #d8dee9
+      separator #d8dee9
+      active_workspace        #434c5e #434c5e #eceff5
+      focused_workspace       #b48ead #b48ead #eceff5
+      inactive_workspace      #2e3440 #2e3440 #d8dee9
+      urgent_workspace        #d08770 #d08770 #eceff4
 
-                #background #473838
-                #statusline #44c7f2
-                #separator #757575
-                #focused_workspace      #b32571 #b32571 #44c7f2
-                #inactive_workspace      #473838 #473838 #44c7f2
-                #urgent_workspace       #f26f44 #f26f44 #44c7f2
-        }
+      # background #4d4d4d
+      # statusline #ffffff
+      # separator #ffffff
+      # focused_workspace       #d3a4f9 #d3a4f9 #ffffff
+      # inactive_workspace      #4d4d4d #4d4d4d #d3a4f9
+      # urgent_workspace        #fda333 #fda333 #ffffff
+  }
 }
